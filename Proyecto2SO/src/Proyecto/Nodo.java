@@ -9,5 +9,11 @@ package Proyecto;
  * @author Maria Daniela
  */
 public class Nodo {
-    
+    Personajes personajes;
+    Nodo siguiente;
+
+    public Nodo(Personajes personaje) {
+        this.personajes = personaje;
+        this.siguiente = null;
+    }
 }
