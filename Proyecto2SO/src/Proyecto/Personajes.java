@@ -44,7 +44,7 @@ public class Personajes {
     public void incrementarInanicion() {
         contadorInanicion++;
         if (contadorInanicion >= 8 && prioridad > 1) {
-            prioridad--; // Subir de nivel de prioridad
+            prioridad--; // Baja de nivel de prioridad
             contadorInanicion = 0; // Reiniciar el contador
             System.out.println("Personaje " + id + " sube a prioridad " + prioridad);
         }
@@ -75,5 +75,12 @@ public class Personajes {
 
     public void resetContadorInanicion() {
         contadorInanicion = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Prioridad: " + prioridad + ", Calidad Habilidades: " + calidadHabilidades +
+                ", Calidad Puntos Vida: " + calidadPuntosVida + ", Calidad Fuerza: " + calidadFuerza +
+                ", Calidad Agilidad: " + calidadAgilidad + ", Inanición: " + contadorInanicion;
     }
 }
