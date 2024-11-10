@@ -5,6 +5,9 @@
 package Proyecto;
 
 import java.util.Random;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -123,4 +126,6 @@ public class Admin {
         System.out.println("Cola Nivel 2: " + colaNivel2);
         System.out.println("Cola Nivel 3: " + colaNivel3);
     }
+    
+    
 }
