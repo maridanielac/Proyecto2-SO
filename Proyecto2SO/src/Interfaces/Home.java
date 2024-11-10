@@ -27,9 +27,14 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         
-        
         setLocationRelativeTo(null);
         
+    }
+    
+    public void setImageLabel(JLabel nombrelabel, String root) {
+        ImageIcon image = new ImageIcon(root);
+        Icon icon = new ImageIcon(image.getImage().getScaledInstance(nombrelabel.getWidth(), nombrelabel.getHeight(), nombrelabel.getWidth()));
+        nombrelabel.setIcon(icon);
     }
 
     /**
@@ -410,9 +415,5 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     // End of variables declaration//GEN-END:variables
 
-    public void setImageLabel(JLabel nombrelabel, String root) {
-        ImageIcon image = new ImageIcon(root);
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(nombrelabel.getWidth(), nombrelabel.getHeight(), nombrelabel.getWidth()));
-        nombrelabel.setIcon(icon);
-    }
+ 
 }

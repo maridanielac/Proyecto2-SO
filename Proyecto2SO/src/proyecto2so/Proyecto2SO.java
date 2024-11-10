@@ -4,6 +4,11 @@
  */
 package proyecto2so;
 import Interfaces.Home;
+import Proyecto.Admin;
+import Proyecto.Cola;
+import Proyecto.IA;
+import Proyecto.Nodo;
+import Proyecto.Personajes;
 
 /**
  *
@@ -17,6 +22,12 @@ public class Proyecto2SO {
     public static void main(String[] args) {
         Home home = new Home();
         home.setVisible(true);
+        
+        // Crea una instancia de Admin, que controla la simulación
+        Admin admin = new Admin();
+        
+        // Inicia la simulación
+        admin.iniciarSimulacion();
     }
     
 }

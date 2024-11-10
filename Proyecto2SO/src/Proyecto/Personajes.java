@@ -72,6 +72,22 @@ public class Personajes {
     public int getContadorInanicion() {
         return contadorInanicion;
     }
+    
+    public int getCalidadHabilidades(){
+        return calidadHabilidades;
+    }
+    
+    public int getPuntosVida(){
+        return calidadPuntosVida;
+    }
+    
+    public int getCalidadFuerza(){
+        return calidadFuerza;
+    }
+    
+    public int getCalidadAgilidad(){
+        return calidadAgilidad;
+    }
 
     public void resetContadorInanicion() {
         contadorInanicion = 0;

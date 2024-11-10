@@ -5,9 +5,6 @@
 package Proyecto;
 
 import java.util.Random;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 /**
  *
