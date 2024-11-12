@@ -41,14 +41,18 @@ public class Personajes {
         }
     }
 
+    //Revisar si funciona la Inanición
     public void incrementarInanicion() {
         contadorInanicion++;
-        if (contadorInanicion >= 8 && prioridad > 1) {
-            prioridad--; // Baja de nivel de prioridad
-            contadorInanicion = 0; // Reiniciar el contador
-            System.out.println("Personaje " + id + " sube a prioridad " + prioridad);
-        }
+
+        if (contadorInanicion >= 8 && prioridad < 3) { // Cambia 'prioridad > 1' por 'prioridad < 3'
+            prioridad--; // Disminuye el valor de la prioridad (mejora de nivel)
+            contadorInanicion = 0; // Reinicia el contador
+
+            // Imprime el cambio de prioridad
+            System.out.println("Personaje " + id + " mejora a prioridad " + prioridad);
     }
+}
 
     // Método para simular el 40% de probabilidad de pasar a prioridad 1 desde la cola de refuerzo
     public boolean intentarAscensoDesdeRefuerzo() {
