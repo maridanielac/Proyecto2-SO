@@ -40,28 +40,29 @@ public class IA {
         } 
     }
     
+    //VER SI FUNCIONAN LOS PUNTAJES 
     private void determinarGanador(){
-        int score1 = 0;
-        int score2 = 0;
+    int score1 = 0;
+    int score2 = 0;
 
-        while (score1 < 2 && score2 < 2) {
-            int eleccion1 = random.nextInt(3); // 0: Piedra, 1: Papel, 2: Tijera
-            int eleccion2 = random.nextInt(3);
+    while (score1 < 2 && score2 < 2) {
+        int eleccion1 = random.nextInt(3); // 0: Piedra, 1: Papel, 2: Tijera
+        int eleccion2 = random.nextInt(3);
 
-            // Determina el ganador de la ronda
-            if (eleccion1 != eleccion2) {
-                if ((eleccion1 == 0 && eleccion2 == 2) || 
-                    (eleccion1 == 1 && eleccion2 == 0) || 
-                    (eleccion1 == 2 && eleccion2 == 1)) {
-                    score1++; // Personaje1 gana la ronda
-                } else {
-                    score2++; // Personaje2 gana la ronda
-                }
+        // Determina el ganador de la ronda
+        if (eleccion1 != eleccion2) {
+            if ((eleccion1 == 0 && eleccion2 == 2) || 
+                (eleccion1 == 1 && eleccion2 == 0) || 
+                (eleccion1 == 2 && eleccion2 == 1)) {
+                score1++; // Personaje1 gana la ronda
+            } else {
+                score2++; // Personaje2 gana la ronda
             }
         }
+    }
 
-        // Asigna el ganador al mejor de tres
-        ganador = score1 == 2 ? personaje1 : personaje2;
+    // Asigna el ganador a 1 o 2 dependiendo de la franquicia
+    ganador = score1 == 2 ? 1 : 2;
     }
 
     public int getPersonaje1() {
