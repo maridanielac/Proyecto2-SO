@@ -60,8 +60,8 @@ public class IA {
             }
         }
 
-        // Asigna el ganador al mejor de tres
-        ganador = score1 == 2 ? personaje1 : personaje2;
+        // Asigna el ganador a 1 o 2 dependiendo de la franquicia
+        ganador = score1 == 2 ? 1 : 2;
     }
 
     public int getPersonaje1() {
