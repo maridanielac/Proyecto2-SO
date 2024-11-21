@@ -46,6 +46,7 @@ public class Personajes {
 
    public void incrementarInanicion(Cola colaActual, Cola colaMedia, Cola colaAlta) {
     // Incrementamos el contador de inanición
+    
     contadorInanicion++; 
 
     // Si el contador llega a 8 y el personaje no está en prioridad 1
