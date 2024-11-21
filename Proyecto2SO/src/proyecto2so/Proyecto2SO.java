@@ -4,6 +4,8 @@
  */
 package proyecto2so;
 
+import Proyecto.Admin;
+
 /**
  *
  * @author Maria Daniela
@@ -16,6 +18,11 @@ public class Proyecto2SO {
     public static void main(String[] args) {
         // TODO code application logic here
         //Branch Maria
+        
+        Admin admin = new Admin();
+        
+        // Inicia la simulación
+        admin.iniciarSimulacion();
     }
     
 }
