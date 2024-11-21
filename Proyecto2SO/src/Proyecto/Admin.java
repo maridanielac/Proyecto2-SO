@@ -25,13 +25,28 @@ public class Admin {
         this.colaNivel2 = new Cola(100);
         this.colaNivel3 = new Cola(100);
     }
+    
+    
+    private int generarIdUnico(String empresa) {
+    int baseId = random.nextInt(100); // Genera un ID base entre 0 y 99
+    if (empresa.equals("StarWars")) {
+        return baseId; // Para StarWars, devuelve el ID base
+    } else {
+        return baseId + 100; // Para otras empresas, añade 100
+    }
+}
 
     public void iniciarSimulacion() {
+        // Generar 20 personajes para Star Wars
         for (int i = 0; i < 20; i++) {
-            agregarPersonaje(new Personajes(generarIdUnico())); // Personaje de Star Wars
-            agregarPersonaje(new Personajes(generarIdUnico())); // Personaje de Star Trek
+            agregarPersonaje(new Personajes(generarIdUnico("StarWars"), "StarWars")); // Personaje de Star Wars
         }
-        System.out.println("20 personajes han sido creados.");
+
+        // Generar 20 personajes para Star Trek
+        for (int i = 0; i < 20; i++) {
+            agregarPersonaje(new Personajes(generarIdUnico("StarTrek"), "StarTrek")); // Personaje de Star Trek
+        }
+        System.out.println("20 personajes de Star Wars y 20 de Star Trek han sido creados.");
         iniciarCiclo(); // Comienza el ciclo de combate
     }
 
@@ -68,13 +83,17 @@ public class Admin {
 }
 
     private void agregarPersonajesConProbabilidad() {
-        // Probabilidad del 80% para agregar nuevos personajes
-        if (random.nextInt(100) < 80) {
-            agregarPersonaje(new Personajes(generarIdUnico())); // Personaje de Star Wars
-            agregarPersonaje(new Personajes(generarIdUnico())); // Personaje de Star Trek
-            System.out.println("Se han agregado nuevos personajes a las colas de prioridad.");
-        }
+    // Probabilidad del 80% para agregar nuevos personajes
+    if (random.nextInt(100) < 80) {
+        // Agregar un personaje de Star Wars
+        agregarPersonaje(new Personajes(generarIdUnico("StarWars"), "StarWars"));
+        
+        // Agregar un personaje de Star Trek
+        agregarPersonaje(new Personajes(generarIdUnico("StarTrek"), "StarTrek"));
+        
+        System.out.println("Se han agregado nuevos personajes a las colas de prioridad.");
     }
+}
 
     private Personajes obtenerPersonajeParaCombate() {
         if (!colaNivel1.estaVacia()) {
