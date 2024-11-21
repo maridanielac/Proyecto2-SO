@@ -22,13 +22,22 @@ public class Cola {
     }
 
     public void agregar(Personajes personaje) {
-        if (finalCola < tamaño) {
-            personajes[finalCola] = personaje;
-            finalCola++;
-        } else {
-            System.out.println("Cola llena. No se puede agregar el personaje: " + personaje);
-        }
+    if (finalCola < tamaño) {
+        personajes[finalCola] = personaje;
+        finalCola++;
+    } else {
+        System.out.println("Cola llena. No se puede agregar el personaje: " + personaje);
     }
+
+    // Reinicia si alcanza el límite
+    if (finalCola == tamaño && frente > 0) {
+        for (int i = frente; i < finalCola; i++) {
+            personajes[i - frente] = personajes[i];
+        }
+        finalCola -= frente;
+        frente = 0;
+    }
+}
 
     public Personajes eliminar() {
         if (estaVacia()) {

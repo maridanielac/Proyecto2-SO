@@ -45,27 +45,48 @@ public class Personajes {
     }
 
     // Revisar si funciona la Inanición
-    public void incrementarInanicion() {
-        contadorInanicion++;
+    public void incrementarInanicion(Cola colaActual, Cola colaMedia, Cola colaAlta) {
+    contadorInanicion++;
 
-        if (contadorInanicion >= 8 && prioridad > 1) {
-            prioridad--; // Disminuye el valor de la prioridad (mejora de nivel)
+    if (contadorInanicion >= 8 && prioridad > 1) {
+        Personajes personaje = colaActual.eliminar(); // Elimina de la cola actual
+
+        if (personaje != null) {
+            prioridad--; // Mejora de nivel
             contadorInanicion = 0; // Reinicia el contador
 
-            // Imprime el cambio de prioridad
+            // Mueve el personaje a la nueva cola basada en su nueva prioridad
+            switch (prioridad) {
+                case 2:
+                    colaMedia.agregar(personaje);
+                    break;
+                case 1:
+                    colaAlta.agregar(personaje);
+                    break;
+                default:
+                    break;
+            }
+
+            // Mensaje de cambio de prioridad
             System.out.println("Personaje " + id + " de " + empresa + " mejora a prioridad " + prioridad);
         }
     }
+}
 
     // Método para simular el 40% de probabilidad de pasar a prioridad 1 desde la cola de refuerzo
-    public boolean intentarAscensoDesdeRefuerzo() {
-        if (random.nextInt(100) < 40) {
-            prioridad = 1;
+    public boolean intentarAscensoDesdeRefuerzo(Cola colaRefuerzo, Cola colaPrioridad1) {
+    if (random.nextInt(100) < 40) {
+        Personajes personaje = colaRefuerzo.eliminar(); // Elimina de la cola de refuerzo
+        if (personaje != null) {
+            prioridad = 1; // Cambia la prioridad
+            colaPrioridad1.agregar(this); // Agrega a la cola de prioridad 1
+
             System.out.println("Personaje " + id + " de " + empresa + " asciende a prioridad 1 desde la cola de refuerzo");
             return true;
         }
-        return false;
     }
+    return false;
+}
 
     // Getters y Setters
     public int getId() {
