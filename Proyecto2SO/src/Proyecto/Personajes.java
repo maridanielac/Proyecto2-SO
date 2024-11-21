@@ -44,49 +44,46 @@ public class Personajes {
         }
     }
 
-    // Revisar si funciona la Inanición
-    public void incrementarInanicion(Cola colaActual, Cola colaMedia, Cola colaAlta) {
-    contadorInanicion++;
+   public void incrementarInanicion(Cola colaActual, Cola colaMedia, Cola colaAlta) {
+    // Incrementamos el contador de inanición
+    contadorInanicion++; 
 
+    // Si el contador llega a 8 y el personaje no está en prioridad 1
     if (contadorInanicion >= 8 && prioridad > 1) {
         Personajes personaje = colaActual.eliminar(); // Elimina de la cola actual
 
         if (personaje != null) {
-            prioridad--; // Mejora de nivel
-            contadorInanicion = 0; // Reinicia el contador
+            // Reducimos la prioridad del personaje
+            prioridad--; 
+            contadorInanicion = 0; // Reinicia el contador de inanición
 
-            // Mueve el personaje a la nueva cola basada en su nueva prioridad
+            // Mueve el personaje a la nueva cola según su prioridad
             switch (prioridad) {
                 case 2:
-                    colaMedia.agregar(personaje);
+                    colaMedia.agregar(personaje); // Mover a cola de prioridad 2
                     break;
                 case 1:
-                    colaAlta.agregar(personaje);
+                    colaAlta.agregar(personaje); // Mover a cola de prioridad 1
                     break;
                 default:
                     break;
             }
 
             // Mensaje de cambio de prioridad
-            System.out.println("Personaje " + id + " de " + empresa + " mejora a prioridad " + prioridad);
+            System.out.println("Personaje " + personaje.getId() + " de " + personaje.getEmpresa() + 
+                               " mejora a prioridad " + prioridad);
         }
     }
 }
 
-    // Método para simular el 40% de probabilidad de pasar a prioridad 1 desde la cola de refuerzo
     public boolean intentarAscensoDesdeRefuerzo(Cola colaRefuerzo, Cola colaPrioridad1) {
-    if (random.nextInt(100) < 40) {
-        Personajes personaje = colaRefuerzo.eliminar(); // Elimina de la cola de refuerzo
-        if (personaje != null) {
-            prioridad = 1; // Cambia la prioridad
-            colaPrioridad1.agregar(this); // Agrega a la cola de prioridad 1
-
-            System.out.println("Personaje " + id + " de " + empresa + " asciende a prioridad 1 desde la cola de refuerzo");
-            return true;
+        if (random.nextInt(100) < 40) {
+            colaPrioridad1.agregar(this); // Mueve a la cola de prioridad 1
+            return true; // Indica que el personaje ascendió
         }
+        colaRefuerzo.agregar(this); // Si no ascendió, regresa a la cola de refuerzo
+        return false;
     }
-    return false;
-}
 
     // Getters y Setters
     public int getId() {

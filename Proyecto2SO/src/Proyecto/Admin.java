@@ -20,12 +20,15 @@ public class Admin {
     private int victoriasStarWars = 0;
     private int victoriasStarTrek = 0;
     private int velocidadIA = 1000; // Velocidad por defecto en milisegundos
+    private Cola colaRefuerzo; // Cola de refuerzo para combates no realizados
+    
 
     public Admin() {
         this.colaNivel1 = new Cola(100); // Inicializa con capacidad para 100 personajes
         this.colaNivel2 = new Cola(100);
         this.colaNivel3 = new Cola(100);
         this.ganadores = new Lista<>();
+        this.colaRefuerzo = new Cola(100); // Capacidad inicial para la cola de refuerzo
     }
 
     private int generarIdUnico(String empresa) {
@@ -70,17 +73,28 @@ public class Admin {
             agregarPersonajesConProbabilidad();
         }
 
+        // Mueve personajes desde la cola de refuerzo con probabilidad de ascenso
+        if (!colaRefuerzo.estaVacia()) {
+            Personajes personaje = colaRefuerzo.eliminar();
+            if (personaje.intentarAscensoDesdeRefuerzo(colaRefuerzo, colaNivel1)) {
+                System.out.println("Personaje " + personaje.getId() + " asciende desde la cola de refuerzo a prioridad 1.");
+            }
+        }
+
+        // Combate
         Personajes personaje1 = obtenerPersonajeParaCombate();
         Personajes personaje2 = obtenerPersonajeParaCombate();
 
         if (personaje1 != null && personaje2 != null) {
             IA inteligenciaArtificial = new IA(personaje1.getId(), personaje2.getId());
+            inteligenciaArtificial.VerGanador(colaRefuerzo);
             int ganadorId = inteligenciaArtificial.getGanador();
 
-            Personajes ganador = (ganadorId == personaje1.getId()) ? personaje1 : personaje2;
-
-            actualizarMarcador(ganador.getEmpresa());
-            manejarGanadorYReinsercion(ganador, personaje1, personaje2);
+            if (ganadorId != -1) {
+                Personajes ganador = (ganadorId == personaje1.getId()) ? personaje1 : personaje2;
+                actualizarMarcador(ganador.getEmpresa());
+                manejarGanadorYReinsercion(ganador, personaje1, personaje2);
+            }
         }
     }
 
@@ -152,6 +166,7 @@ public class Admin {
         System.out.println("Cola Nivel 1: " + colaNivel1);
         System.out.println("Cola Nivel 2: " + colaNivel2);
         System.out.println("Cola Nivel 3: " + colaNivel3);
+        System.out.println("Cola de Refuerzo: " + colaRefuerzo);
     }
 
     public void mostrarGanadores() {

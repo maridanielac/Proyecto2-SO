@@ -24,8 +24,8 @@ public class IA {
         this.ganador = -1; // Inicializa ganador como -1 (sin ganador)
     }
     
-    public void VerGanador(){
-       int resultado = random.nextInt(100); // Genera un número entre 0 y 99
+    public void VerGanador(Cola colaRefuerzo) {
+        int resultado = random.nextInt(100); // Genera un número entre 0 y 99
 
         if (resultado < 40) {
             // 40% de probabilidad de que haya un ganador
@@ -37,7 +37,9 @@ public class IA {
         } else {
             // 33% de probabilidad de que el combate no pueda llevarse a cabo
             System.out.println("Resultado: Combate no puede llevarse a cabo. Ambos personajes van a la cola de refuerzo.");
-        } 
+            colaRefuerzo.agregar(new Personajes(personaje1, "Refuerzo"));
+            colaRefuerzo.agregar(new Personajes(personaje2, "Refuerzo"));
+        }
     }
     
     //VER SI FUNCIONAN LOS PUNTAJES 
