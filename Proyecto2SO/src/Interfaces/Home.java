@@ -8,34 +8,78 @@ import Proyecto.Cola;
 import Proyecto.IA;
 import Proyecto.Nodo;
 import Proyecto.Personajes;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Semaphore;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 /**
  *
  * @author soyis
  */
 public class Home extends javax.swing.JFrame {
+        
+    
+    // Crea una instancia de Admin, que controla la simulación
+        Admin admin = new Admin();
+        Timer timer; // Para actualizar la interfaz
+        
+       
 
     /**
      * Creates new form Home
      */
     public Home() {
         initComponents();
-        
         setLocationRelativeTo(null);
-        
+       
+         // Inicia la simulación usando SwingWorker
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                admin.iniciarSimulacion();
+                return null;
+            }
+        }.execute();
+
+        // Configura el Timer para actualizar la interfaz cada segundo
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarInterfaz(); // Método para actualizar la interfaz
+            }
+        });
+        timer.start(); // Comienza el Timer
     }
     
-    public void setImageLabel(JLabel nombrelabel, String root) {
-        ImageIcon image = new ImageIcon(root);
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(nombrelabel.getWidth(), nombrelabel.getHeight(), nombrelabel.getWidth()));
-        nombrelabel.setIcon(icon);
+     private void actualizarInterfaz() {
+         String cola2w = admin.getColaNivel2SW(); 
+         String cola2t = admin.getColaNivel2ST();
+         String cola3w = admin.getColaNivel3SW(); 
+         String cola3t = admin.getColaNivel3ST(); 
+         
+        // Actualiza los JTextAreas con la información de las colas
+        Prioridad1SW.setText("Cola Nivel 1:\n" + admin.getColaNivel1SW());
+        Prioridad1ST.setText("Cola Nivel 1:\n" + admin.getColaNivel1ST());
+        Prioridad2SW.setText("Cola Nivel 2:\n" + admin.getColaNivel2SW());
+        Prioridad2ST.setText("Cola Nivel 2:\n" + admin.getColaNivel2ST());
+        Prioridad3SW.setText("Cola Nivel 3:\n" + admin.getColaNivel3SW());
+        Prioridad3ST.setText("Cola Nivel 3:\n" + admin.getColaNivel3ST());
+        SWScore.setText(String.valueOf(admin.getVictoriasStarWars()));
+        STScore.setText(String.valueOf(admin.getVictoriasStarTrek()));
+        SwIDLabel.setText(String.valueOf(admin.getIDpersonaje1()));
+        StIDLabel.setText(String.valueOf(admin.getIDpersonaje2()));
+        // Actualiza el estado de la IA en el hilo de la GUI
+        SwingUtilities.invokeLater(() -> {
+            estadoIALabel.setText(admin.getEstadoIA());
+            System.out.println("Estado de la IA: " + admin.getEstadoIA()); // Para depuración
+        });
+        // Actualiza el marcador (si tienes un método para obtener el marcador)
+        // Puedes agregar más actualizaciones según sea necesario
     }
+    
+    
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,11 +93,11 @@ public class Home extends javax.swing.JFrame {
         TituloLabel = new javax.swing.JLabel();
         StarwarsLabel = new javax.swing.JLabel();
         StartreckLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        STScore = new javax.swing.JLabel();
+        estadoIALabel = new javax.swing.JLabel();
         VsLabel = new javax.swing.JLabel();
         BattleDuration = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        timeButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         RefuerzosPane = new javax.swing.JScrollPane();
         RefuerzosSW = new javax.swing.JTextArea();
@@ -64,14 +108,14 @@ public class Home extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         Prioridad3SW = new javax.swing.JTextArea();
         jScrollPane7 = new javax.swing.JScrollPane();
-        Prioridad1SW1 = new javax.swing.JTextArea();
+        Prioridad1SW = new javax.swing.JTextArea();
         jScrollPane8 = new javax.swing.JScrollPane();
-        Prioridad1ST1 = new javax.swing.JTextArea();
+        Prioridad1ST = new javax.swing.JTextArea();
         jScrollPane9 = new javax.swing.JScrollPane();
         Prioridad2ST = new javax.swing.JTextArea();
         jScrollPane10 = new javax.swing.JScrollPane();
-        Prioridad3ST1 = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
+        Prioridad3ST = new javax.swing.JTextArea();
+        SWScore = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -82,13 +126,19 @@ public class Home extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        SwIDLabel = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        STScore1 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        StIDLabel = new javax.swing.JLabel();
         FondoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,15 +156,13 @@ public class Home extends javax.swing.JFrame {
         StartreckLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\soyis\\OneDrive\\Escritorio\\COLLEGE\\Sistemas operativos\\Proyecto 2\\Proyecto2-SO\\Proyecto2SO\\src\\Images\\LogoStarTreck.png")); // NOI18N
         getContentPane().add(StartreckLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 110, 150, 70));
 
-        jLabel1.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Score: ");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, -1, -1));
+        STScore.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        STScore.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(STScore, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 140, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Estado de la IA: ");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 620, -1, -1));
+        estadoIALabel.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 14)); // NOI18N
+        estadoIALabel.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(estadoIALabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 620, -1, -1));
 
         VsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         VsLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\soyis\\OneDrive\\Escritorio\\COLLEGE\\Sistemas operativos\\Proyecto 2\\Proyecto2-SO\\Proyecto2SO\\src\\Images\\VS.png")); // NOI18N
@@ -126,11 +174,16 @@ public class Home extends javax.swing.JFrame {
         BattleDuration.setText("10");
         getContentPane().add(BattleDuration, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 560, 70, 30));
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Battle Duration");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 560, 130, 30));
+        timeButton.setBackground(new java.awt.Color(102, 102, 102));
+        timeButton.setForeground(new java.awt.Color(255, 255, 255));
+        timeButton.setText("Battle Duration");
+        timeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        timeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timeButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(timeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 560, 130, 30));
 
         jLabel3.setFont(new java.awt.Font("Microsoft Tai Le", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -181,25 +234,25 @@ public class Home extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 270, 50));
 
-        Prioridad1SW1.setEditable(false);
-        Prioridad1SW1.setBackground(new java.awt.Color(51, 51, 51));
-        Prioridad1SW1.setColumns(20);
-        Prioridad1SW1.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
-        Prioridad1SW1.setForeground(new java.awt.Color(255, 255, 255));
-        Prioridad1SW1.setRows(5);
-        Prioridad1SW1.setToolTipText("");
-        jScrollPane7.setViewportView(Prioridad1SW1);
+        Prioridad1SW.setEditable(false);
+        Prioridad1SW.setBackground(new java.awt.Color(51, 51, 51));
+        Prioridad1SW.setColumns(20);
+        Prioridad1SW.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
+        Prioridad1SW.setForeground(new java.awt.Color(255, 255, 255));
+        Prioridad1SW.setRows(5);
+        Prioridad1SW.setToolTipText("");
+        jScrollPane7.setViewportView(Prioridad1SW);
 
         getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 270, 50));
 
-        Prioridad1ST1.setEditable(false);
-        Prioridad1ST1.setBackground(new java.awt.Color(51, 51, 51));
-        Prioridad1ST1.setColumns(20);
-        Prioridad1ST1.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
-        Prioridad1ST1.setForeground(new java.awt.Color(255, 255, 255));
-        Prioridad1ST1.setRows(5);
-        Prioridad1ST1.setToolTipText("");
-        jScrollPane8.setViewportView(Prioridad1ST1);
+        Prioridad1ST.setEditable(false);
+        Prioridad1ST.setBackground(new java.awt.Color(51, 51, 51));
+        Prioridad1ST.setColumns(20);
+        Prioridad1ST.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
+        Prioridad1ST.setForeground(new java.awt.Color(255, 255, 255));
+        Prioridad1ST.setRows(5);
+        Prioridad1ST.setToolTipText("");
+        jScrollPane8.setViewportView(Prioridad1ST);
 
         getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 250, 270, 50));
 
@@ -214,21 +267,20 @@ public class Home extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 340, 270, 50));
 
-        Prioridad3ST1.setEditable(false);
-        Prioridad3ST1.setBackground(new java.awt.Color(51, 51, 51));
-        Prioridad3ST1.setColumns(20);
-        Prioridad3ST1.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
-        Prioridad3ST1.setForeground(new java.awt.Color(255, 255, 255));
-        Prioridad3ST1.setRows(5);
-        Prioridad3ST1.setToolTipText("");
-        jScrollPane10.setViewportView(Prioridad3ST1);
+        Prioridad3ST.setEditable(false);
+        Prioridad3ST.setBackground(new java.awt.Color(51, 51, 51));
+        Prioridad3ST.setColumns(20);
+        Prioridad3ST.setFont(new java.awt.Font("Lucida Bright", 0, 12)); // NOI18N
+        Prioridad3ST.setForeground(new java.awt.Color(255, 255, 255));
+        Prioridad3ST.setRows(5);
+        Prioridad3ST.setToolTipText("");
+        jScrollPane10.setViewportView(Prioridad3ST);
 
         getContentPane().add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 430, 270, 50));
 
-        jLabel4.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Score: ");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
+        SWScore.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        SWScore.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(SWScore, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Microsoft Tai Le", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -283,11 +335,11 @@ public class Home extends javax.swing.JFrame {
         jLabel15.setText("Puntos de vida:");
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 460, -1, 20));
 
-        jLabel14.setFont(new java.awt.Font("Felix Titling", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("ID: ");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, -1, -1));
+        SwIDLabel.setFont(new java.awt.Font("Felix Titling", 1, 24)); // NOI18N
+        SwIDLabel.setForeground(new java.awt.Color(255, 255, 255));
+        SwIDLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SwIDLabel.setText("ID: ");
+        getContentPane().add(SwIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 120, 90));
 
         jLabel16.setFont(new java.awt.Font("Felix Titling", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -325,6 +377,37 @@ public class Home extends javax.swing.JFrame {
         jLabel21.setText("agilidad:");
         getContentPane().add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, -1, 20));
 
+        jLabel22.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 18)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Score: ");
+        getContentPane().add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Score: ");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, -1, -1));
+
+        STScore1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        STScore1.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(STScore1, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 140, -1, -1));
+
+        jLabel23.setFont(new java.awt.Font("Coco Gothic Heavy", 0, 14)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("Estado de la IA: ");
+        getContentPane().add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 620, -1, -1));
+
+        jLabel24.setFont(new java.awt.Font("Felix Titling", 1, 14)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("ID: ");
+        getContentPane().add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, -1, -1));
+
+        StIDLabel.setFont(new java.awt.Font("Felix Titling", 1, 24)); // NOI18N
+        StIDLabel.setForeground(new java.awt.Color(255, 255, 255));
+        StIDLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        StIDLabel.setText("ID: ");
+        getContentPane().add(StIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 260, 120, 90));
+
         FondoLabel.setFont(new java.awt.Font("Felix Titling", 0, 36)); // NOI18N
         FondoLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\soyis\\OneDrive\\Escritorio\\COLLEGE\\Sistemas operativos\\Proyecto 2\\Proyecto2-SO\\Proyecto2SO\\src\\Images\\Fondo.jpg")); // NOI18N
         FondoLabel.setText("Pelea de Sagas");
@@ -332,6 +415,11 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void timeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeButtonActionPerformed
+       admin.setVelocidadIA(Integer.parseInt(BattleDuration.getText())*1000);
+        JOptionPane.showMessageDialog(this, "Duracion de Batalla Cambiada con Exito");
+    }//GEN-LAST:event_timeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,34 +459,39 @@ public class Home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField BattleDuration;
     private javax.swing.JLabel FondoLabel;
-    private javax.swing.JTextArea Prioridad1ST1;
-    private javax.swing.JTextArea Prioridad1SW1;
+    private javax.swing.JTextArea Prioridad1ST;
+    private javax.swing.JTextArea Prioridad1SW;
     private javax.swing.JTextArea Prioridad2ST;
     private javax.swing.JTextArea Prioridad2SW;
-    private javax.swing.JTextArea Prioridad3ST1;
+    private javax.swing.JTextArea Prioridad3ST;
     private javax.swing.JTextArea Prioridad3SW;
     private javax.swing.JScrollPane RefuerzosPane;
     private javax.swing.JTextArea RefuerzosST;
     private javax.swing.JTextArea RefuerzosSW;
+    private javax.swing.JLabel STScore;
+    private javax.swing.JLabel STScore1;
+    private javax.swing.JLabel SWScore;
+    private javax.swing.JLabel StIDLabel;
     private javax.swing.JLabel StartreckLabel;
     private javax.swing.JLabel StarwarsLabel;
+    private javax.swing.JLabel SwIDLabel;
     private javax.swing.JLabel TituloLabel;
     private javax.swing.JLabel VsLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel estadoIALabel;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -413,7 +506,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JButton timeButton;
     // End of variables declaration//GEN-END:variables
 
- 
 }

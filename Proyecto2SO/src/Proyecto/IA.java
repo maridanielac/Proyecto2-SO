@@ -13,8 +13,9 @@ import java.util.Random;
 public class IA {
     private int personaje1; // Star Wars
     private int personaje2; // Star Trek
-    private int ganador; 
-    private int time = 10;
+    private int ganador;
+    private String estado;
+    private int time = 10000;
     private Random random = new Random();
 
     // Modificado: solo 2 parámetros
@@ -22,19 +23,28 @@ public class IA {
         this.personaje1 = personaje1;
         this.personaje2 = personaje2;
         this.ganador = -1; // Inicializa ganador como -1 (sin ganador)
+        this.estado = "Esperando";
     }
     
-    public void VerGanador(){
+    public void VerGanador(Cola colaRefuerzo){
+        estado = "Decidiendo"; // Cambia el estado a "Decidiendo"
+        System.out.println("Estado de la IA: " + estado);
        int resultado = random.nextInt(100); // Genera un número entre 0 y 99
 
         if (resultado < 40) {
             // 40% de probabilidad de que haya un ganador
             determinarGanador();
+            estado = "Anunciando Resultado"; // Cambia el estado a "Anunciando Resultado"
+            System.out.println("Estado de la IA: " + estado);
             System.out.println("Hay un ganador: Personaje " + ganador);
         } else if (resultado < 67) {
+             estado = "Anunciando Resultado"; // Cambia el estado a "Anunciando Resultado"
+            System.out.println("Estado de la IA: " + estado);
             // 27% de probabilidad de que ocurra un empate
             System.out.println("Resultado: Empate. Ambos personajes vuelven a la cola de nivel 1.");
         } else {
+             estado = "Esperando"; // Cambia el estado a "Anunciando Resultado"
+             System.out.println("Estado de la IA: " + estado);
             // 33% de probabilidad de que el combate no pueda llevarse a cabo
             System.out.println("Resultado: Combate no puede llevarse a cabo. Ambos personajes van a la cola de refuerzo.");
         } 
@@ -95,6 +105,9 @@ public class IA {
     public void setTime(int time) {
         this.time = time;
     }
+    public String getEstado() {
+        return estado;
+}
     
     
     
