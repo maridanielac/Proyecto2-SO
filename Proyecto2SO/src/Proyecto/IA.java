@@ -47,6 +47,8 @@ public class IA {
              System.out.println("Estado de la IA: " + estado);
             // 33% de probabilidad de que el combate no pueda llevarse a cabo
             System.out.println("Resultado: Combate no puede llevarse a cabo. Ambos personajes van a la cola de refuerzo.");
+            colaRefuerzo.agregar(new Personajes(personaje1, "StarWars"));
+            colaRefuerzo.agregar(new Personajes(personaje2, "StarTrek"));
         } 
     }
     
